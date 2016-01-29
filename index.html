@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MTCARS Exploratory plot</title>
+  <meta charset="utf-8">
+  <meta name="description" content="MTCARS Exploratory plot">
+  <meta name="author" content="Oleg Trofilov">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="libraries/widgets/interactive/css/aceeditor.css"></link>
+<link rel=stylesheet href="libraries/widgets/bootstrap/css/bootstrap.css"></link>
+<link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>MTCARS Exploratory plot</h1>
+    <h2>Coursera course project</h2>
+    <p>Oleg Trofilov<br/>DS</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>What is the idea?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The idea is to implement a simple Shiny interactive application, which would allow for a user to utilize user interface controls to get a plot built for the <strong>mtcars</strong> dataset which is supplied in R.</p>
+
+<p>The plot was built depending on the following inputs:</p>
+
+<ul>
+<li>Y variable</li>
+<li>X variable</li>
+<li>split variable</li>
+<li>smoothing method</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Approach to implementation</h2>
+  </hgroup>
+  <article data-timings="">
+    <ol>
+<li>Transform dataset&#39;s variable names to more user-friendly </li>
+<li>Separate factor variables, to be use for the split, from all the others</li>
+<li>Create a shiny application with user interface (ui.R) and processing logics behind (server.R)</li>
+<li>Deploy application on a public portal shinyapp.io</li>
+<li>Share source code on github.com page</li>
+</ol>
+
+<p><small> 
+Application is available by this <a href="https://omdqvdev1.shinyapps.io/mtcars_explore_plot/">link</a>
+</small></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>User controls</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The following controls are available in user interface, allowing to define parameters of the plot </p>
+
+<div class="row-fluid">
+  <div class="col-sm-4">
+    <form class="well">
+      <div class="form-group shiny-input-container">
+        <label class="control-label" for="varY_id">Select Y variable</label>
+        <div>
+          <select id="varY_id"><option value="MPG" selected>MPG</option>
+<option value="Displacement">Displacement</option>
+<option value="Horsepower">Horsepower</option>
+<option value="RearAxleRatio">RearAxleRatio</option>
+<option value="Weight">Weight</option>
+<option value="QuarterMileTime">QuarterMileTime</option></select>
+          <script type="application/json" data-for="varY_id" data-nonempty="">{}</script>
+        </div>
+      </div>
+      <div class="form-group shiny-input-container">
+        <label class="control-label" for="varX_id">Select X variable</label>
+        <div>
+          <select id="varX_id"><option value="MPG">MPG</option>
+<option value="Displacement">Displacement</option>
+<option value="Horsepower">Horsepower</option>
+<option value="RearAxleRatio">RearAxleRatio</option>
+<option value="Weight" selected>Weight</option>
+<option value="QuarterMileTime">QuarterMileTime</option></select>
+          <script type="application/json" data-for="varX_id" data-nonempty="">{}</script>
+        </div>
+      </div>
+      <div class="form-group shiny-input-container">
+        <label class="control-label" for="fact_id">Factor split</label>
+        <div>
+          <select id="fact_id"><option value="Cylinders" selected>Cylinders</option>
+<option value="vsEngine">vsEngine</option>
+<option value="Transmission">Transmission</option>
+<option value="Gears">Gears</option>
+<option value="Carburetors">Carburetors</option></select>
+          <script type="application/json" data-for="fact_id" data-nonempty="">{}</script>
+        </div>
+      </div>
+      <div id="smooth_id" class="form-group shiny-input-radiogroup shiny-input-container shiny-input-container-inline">
+        <label class="control-label" for="smooth_id">Smoothing method</label>
+        <div class="shiny-options-group">
+          <label class="radio-inline">
+            <input type="radio" name="smooth_id" value="lm" checked="checked"/>
+            <span>lm</span>
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="smooth_id" value="loess"/>
+            <span>loess</span>
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="smooth_id" value="rlm"/>
+            <span>rlm</span>
+          </label>
+        </div>
+      </div>
+      <div class="form-group shiny-input-container">
+        <div class="checkbox">
+          <label>
+            <input id="se_id" type="checkbox" checked="checked"/>
+            <span>Draw conf. interval</span>
+          </label>
+        </div>
+      </div>
+      <div class="form-group shiny-input-container">
+        <div class="checkbox">
+          <label>
+            <input id="fsplit_id" type="checkbox" checked="checked"/>
+            <span>Use factor split</span>
+          </label>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Examples of output plot</h2>
+  </hgroup>
+  <article data-timings="">
+    
+<div style='float:left;width:48%;' class='centered'>
+  <p><img src="assets/fig/unnamed-chunk-3-1.png" alt="plot of chunk unnamed-chunk-3"></p>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p><img src="assets/fig/unnamed-chunk-4-1.png" alt="plot of chunk unnamed-chunk-4"></p>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='What is the idea?'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Approach to implementation'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='User controls'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Examples of output plot'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  <script src="libraries/widgets/interactive/js/ace/js/ace.js"></script>
+<script src="libraries/widgets/interactive/js/opencpu-0.5.js"></script>
+<script src="libraries/widgets/interactive/js/interactive.js"></script>
+<script src="libraries/widgets/bootstrap/js/bootstrap.min.js"></script>
+<script src="libraries/widgets/bootstrap/js/bootbox.min.js"></script>
+
+  <script src="shared/shiny.js" type="text/javascript"></script>
+  <script src="shared/slider/js/jquery.slider.min.js"></script>
+  <script src="shared/bootstrap/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="shared/slider/css/jquery.slider.min.css"></link>
+  
+  <script>  
+  $(function (){ 
+    $("#example").popover(); 
+    $("[rel='tooltip']").tooltip(); 
+  });  
+  </script>  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
