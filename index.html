@@ -36,7 +36,7 @@
   <hgroup class="auto-fadein">
     <h1>MTCARS Exploratory plot</h1>
     <h2>Coursera course project</h2>
-    <p>Oleg Trofilov<br/>DS</p>
+    <p>Oleg Trofilov<br/></p>
   </hgroup>
   <article></article>  
 </slide>
@@ -177,11 +177,25 @@ Application is available by this <a href="https://omdqvdev1.shinyapps.io/mtcars_
   <article data-timings="">
     
 <div style='float:left;width:48%;' class='centered'>
-  <p><img src="assets/fig/unnamed-chunk-3-1.png" alt="plot of chunk unnamed-chunk-3"></p>
+  <p><img src="assets/fig/unnamed-chunk-2-1.png" alt="plot of chunk unnamed-chunk-2"></p>
 
 </div>
 <div style='float:right;width:48%;'>
-  <p><img src="assets/fig/unnamed-chunk-4-1.png" alt="plot of chunk unnamed-chunk-4"></p>
+  <h3>Code</h3>
+
+<pre>
+<small>
+ggplot(data = mc, 
+aes(y = MPG, x = Weight, col = Transmission)) +
+geom_point(size = 2) +
+geom_smooth(method = "lm", se = TRUE, size = 1) +
+ggtitle("MPG by Weight and Transmission") +
+theme(
+plot.title = element_text(face = "bold", size = 20),
+axis.title = element_text(face = "bold", size = 14),
+legend.title = element_text(face = "bold", size = 12)
+</small>
+</pre>
 
 </div>
   </article>
